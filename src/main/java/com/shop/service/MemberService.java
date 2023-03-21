@@ -15,12 +15,17 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
+    /*
+        회원가입 저장
+     */
     public Member saveMember(Member member) {
         validateDuplicateMember(member);
 
         return memberRepository.save(member);
     }
-
+    /*
+        이메일아이디중복검색
+     */
     private void validateDuplicateMember(Member member) {
         Member findMember = memberRepository.findByEmail(member.getEmail());
 

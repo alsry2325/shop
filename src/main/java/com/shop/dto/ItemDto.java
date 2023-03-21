@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Setter
 public class ItemDto {
 
-
+    //상품 생성자
     private Long id;   //상품번호
     private String itemNm; //상품이름
     private Integer price;// 상품가격
