@@ -1,19 +1,20 @@
 package com.shop.controller;
 
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class MainController {
+public class ItemController {
 
     /**
-     * 메인페이지 뷰
+     * 상품 등록 뷰
      * @return
      */
-    @GetMapping(value = "/")
-    public String main(){
+    @GetMapping(value = "/admin/item/new")
+    public String itemForm(){
 
-        return "main";
+        return "/item/itemForm";
     }
+
+
 }

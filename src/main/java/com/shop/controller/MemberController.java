@@ -64,4 +64,25 @@ public class MemberController {
         //메인화면으로 이동
         return "redirect:/";
     }
+
+    /**
+     * 로그인 뷰
+     * @return
+     */
+    @GetMapping(value = "/login")
+    public String loginMeber(){
+        return "/member/memberLoginForm";
+    }
+
+    /**
+     * 로그인 에러메세지
+     * @param model
+     * @return
+     */
+    @GetMapping(value = "/login/error")
+    public String loginError(Model model){
+        model.addAttribute("loginErrorMsg","아이디 또는 비밀번호를 확인해주새요");
+        return "/member/memberLoginForm";
+    }
+
 }
