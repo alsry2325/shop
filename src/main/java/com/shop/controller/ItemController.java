@@ -70,9 +70,9 @@ public class ItemController {
     public String itemDtl(@PathVariable("itemId")Long itemId, Model model){
 
         try {
-               ItemFormDto itemFormDto = itemService.getItemDtl(itemId);
+               ItemFormDto itemFormDto = itemService.getItemDtl(itemId); //조회한 상품 데이터를 모델에 담아서 뷰로 전달
                model.addAttribute("itemFormDto",itemFormDto);
-        }catch (EntityNotFoundException e){
+        }catch (EntityNotFoundException e){  //상품의 엔티티가 존재하지않을경우 에러메세지를 담아서 상품 등록 페이지로 이동
                 model.addAttribute("errorMessage", "존재하지 않는 상품입니다");
                 model.addAttribute("itemFormDto", new ItemFormDto());
                 return "item/itemForm";
@@ -80,4 +80,24 @@ public class ItemController {
 
         return "item/itemForm";
     }
+
+    @PostMapping(value = "/admin/item/{itemId}")
+    public String itemUpdate(@Valid ItemFormDto itemFormDto,BindingResult bindingResult, @RequestParam("itemImgFile")List<MultipartFile>
+                             itemImgFileList,Model model){
+        if (bindingResult.hasErrors()){
+            return  "item/itemForm";
+        }
+        if (itemImgFileList.get(0).isEmpty() && itemFormDto.getId() == null){
+            model.addAttribute("errorMessage","첫번째 상품 이미지는 필수 입력 값입니다");
+            return  "item/itemForm";
+        }
+        try{
+            itemService.updateItem(itemFormDto,itemImgFileList);
+        }catch (Exception e){
+            model.addAttribute("errorMessage","상품 수정중 에러가 발생함");
+            return "item/itemForm";
+        }
+        return  "redirect:/";
+    }
+
 }
