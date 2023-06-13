@@ -51,6 +51,12 @@ public class ItemImgService {
 
     }
 
+    /**
+     * 상품 이미지수정
+     * @param itemImgId
+     * @param itemImgFile
+     * @throws Exception
+     */
    public void updateItemImg(Long itemImgId,MultipartFile itemImgFile)throws Exception{
 
         if (!itemImgFile.isEmpty()){ //상품 이미지를 수정한 경우 상품 이미지를 업데이트를 함

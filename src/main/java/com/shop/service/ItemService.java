@@ -3,11 +3,14 @@ package com.shop.service;
 
 import com.shop.dto.ItemFormDto;
 import com.shop.dto.ItemImgDto;
+import com.shop.dto.ItemSearchDto;
 import com.shop.entity.Item;
 import com.shop.entity.ItemImg;
 import com.shop.repository.ItemImgRepository;
 import com.shop.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,6 +32,13 @@ public class ItemService {
 
     private final ItemImgRepository itemImgRepository;
 
+    /**
+     * 상품 등록
+     * @param itemFormDto
+     * @param itemImgFileList
+     * @return
+     * @throws Exception
+     */
     public Long saveItem(ItemFormDto itemFormDto, List<MultipartFile> itemImgFileList) throws Exception {
 
         //상품 등록
@@ -52,6 +62,11 @@ public class ItemService {
 
     }
 
+    /**
+     * 상품 불러오기
+     * @param itemId
+     * @return
+     */
     @Transactional(readOnly = true) //상품 데이터를 읽어오는 트랜잭션을 읽기전용으로 이럴경우 jpa가 더티체킹(변경감지)를 사용하지않아 성능을 향상 시킴
     public ItemFormDto getItemDtl(Long itemId) {
 
@@ -73,6 +88,13 @@ public class ItemService {
     }
 
 
+    /**
+     * 상품 수정하기
+     * @param itemFormDto
+     * @param itemImgFileList
+     * @return
+     * @throws Exception
+     */
     public Long updateItem(ItemFormDto itemFormDto,List<MultipartFile> itemImgFileList)throws Exception{
 
         //상품 수정
@@ -88,5 +110,16 @@ public class ItemService {
         }
 
         return item.getId();
+    }
+
+    /**
+     * 상품 조회 조건과 페이지 정보를 파라미터로 받아서 상품데이터 조회
+     * @param itemSearchDto
+     * @param pageable
+     * @return
+     */
+    @Transactional(readOnly = true) //데이터수정이 일어나지않으므로 최적화하기위해 쓰는 어노테이션
+    public Page<Item> getAdminItemPage(ItemSearchDto itemSearchDto ,Pageable pageable){
+            return itemRepository.getAdminItemPage(itemSearchDto,pageable);
     }
 }
